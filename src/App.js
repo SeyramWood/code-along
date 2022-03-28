@@ -1,67 +1,37 @@
 import React from "react";
 import "./App.css";
+import ProfileForm from "./components/ProfileForm";
 import ProfileCard from "./ProfileCard";
 
 function App() {
-  const [data, setData] = React.useState({
-    writers: [],
-    loading: false,
-  });
+  const [profiles, setProfiles] = React.useState([
+    {
+      firstName: "Hannah",
+      lastName: "Montanah",
+      email: "hannah.montana@gmail.com",
+      phone: "+233 244 555 000",
+    },
+  ]);
 
-  const handleClick = () => {
-    setData((data) => ({
-      ...data,
-      loading: true,
-    }));
-    setTimeout(() => {
-      const getWriters = async () => {
-        const res = await fetch("./writers.json");
-        const results = await res.json();
-        setData((data) => ({
-          ...data,
-          writers: results,
-          loading: false,
-        }));
-      };
-      getWriters();
-    }, 2000);
+  const submit = (profile) => {
+    setProfiles((state) => [profile, ...state]);
   };
-  React.useEffect(() => {
-    handleClick();
-  }, []);
-
-  if (data.loading) {
-    return (
-      <div>
-        <h1>Writers Profile</h1>
-        <div className="container">
-          <div className="card action">
-            <div className="infoText">Loading...</div>
-          </div>
-        </div>
-      </div>
-    );
-  }
   return (
     <div className="App">
-      <button type="button" onClick={handleClick}>
-        Fetch Data
-      </button>
       <h1>Writer Profiles.</h1>
-      {data.writers.length > 0 && (
-        <div className="container">
-          {data.writers.map((writer) => (
-            <ProfileCard writer={writer} key={writer.id} />
-          ))}
-        </div>
-      )}
-      {data.writers.length === 0 && (
+      <div className="container">
+        <ProfileForm submit={submit} />
+        {profiles.map((writer) => (
+          <ProfileCard writer={writer} key={writer.id} />
+        ))}
+      </div>
+      {/* {data.writers.length === 0 && (
         <div className="container">
           <div className="card action">
             <div className="infoText">Ooops...no writer profile found.</div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
