@@ -6,6 +6,7 @@ const ProfileForm = ({ submit }) => {
     lastName: "",
     email: "",
     phone: "",
+    avatar: "belle_hooks",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,7 +18,13 @@ const ProfileForm = ({ submit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     submit(profile);
-    setProfile({ firstName: "", lastName: "", email: "", phone: "" });
+    setProfile({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      avatar: "belle_hooks",
+    });
   };
   return (
     <form onSubmit={handleSubmit}>
